@@ -41,25 +41,25 @@ def perftest():
     max_price = 50000
     min_random_price = int(max_price * .25)
     max_random_price = int(max_price * .75)
-    print "max price: %d" % max_price
-    print "random trading range: %d-%d (%.2f%%)" % (min_random_price, max_random_price, (max_random_price-min_random_price)/float(max_price)*100)
+    print("max price: %d" % max_price)
+    print("random trading range: %d-%d (%.2f%%)" % (min_random_price, max_random_price, (max_random_price-min_random_price)/float(max_price)*100))
     ob = MyOrderBook("FOOBAR", max_price=max_price)
     elapsed = 0.0
     for i in range(ITERS):
         buysell, qty, price, trader = random.choice([0,1]), random.randrange(1,1000), \
                 random.randrange(min_random_price, max_random_price), 'trader %s' % random.randrange(1000)
-        start = time.clock()
+        start = time.time()
         ob.limit_order(buysell, qty, price, trader)
-        elapsed += (time.clock() - start)
+        elapsed += (time.time() - start)
     elapsed = elapsed * 1000.
         
-    print "# orders: %d" % ITERS
-    print "elapsed: %.2f msecs" % elapsed
-    print "# trades: %d" % MyOrderBook.trades
-    print "%.2f orders/sec" % (ITERS/elapsed*1000.)
-    print "check memory use for pid %s" % os.getpid()
-    print "press Enter to quit"
-    raw_input()
+    print("# orders: %d" % ITERS)
+    print("elapsed: %.2f msecs" % elapsed)
+    print("# trades: %d" % MyOrderBook.trades)
+    print("%.2f orders/sec" % (ITERS/elapsed*1000.))
+    print("check memory use for pid %s" % os.getpid())
+    print("press Enter to quit")
+    input()
 
 if __name__ == "__main__":
     perftest()

@@ -1,5 +1,5 @@
 # TODO: epytext is @type, @param, @rtype, @return
-import cStringIO as StringIO
+from io import StringIO
 from collections import deque, namedtuple
 # TODO: get rid of dec_places stuff, make all prices ints which represent ticks
 
@@ -56,7 +56,7 @@ class OrderBook(object):
         @param price: trade price
         @param size: trade size
         """
-        print "EXECUTE: %s BUY %s SELL %s %s @ %d" % (trader_buy, trader_sell, size, self.name, price)
+        print("EXECUTE: %s BUY %s SELL %s %s @ %d" % (trader_buy, trader_sell, size, self.name, price))
         
     def limit_order(self, side, size, price, trader):
         """
@@ -159,7 +159,7 @@ class OrderBook(object):
         This is mainly useful for debugging and learning about 
         how order books work.
         """
-        output = StringIO.StringIO()
+        output = StringIO()
         output.write(("-"*110)+"\r\n")
         output.write("Buyers".center(55) + " | " + "Sellers".center(55) + "\r\n")
         output.write(("-"*110)+"\r\n")
@@ -208,9 +208,10 @@ def _unittest2():
       #print book.render()
       book.limit_order(*order)
       #print
-    print
-    print book.render()
-     
+    print()
+    print(book.render())
+
+
 def _unittest1():
     ob = OrderBook("BTCUSD")
     
@@ -226,11 +227,11 @@ def _unittest1():
     ob.limit_order(1, 5, 1.05, 'trader 4')
     ob.limit_order(1, 5, 1.25, 'trader 5')
     #ob.limit_order(0, 100, 1.50, 'trader 6')    
-    print ob.render()
+    print(ob.render())
 
 def _perftest():
     import os
-    print "pid: %s" % os.getpid()
+    print("pid: %s" % os.getpid())
     class MyOrderBook(OrderBook):
         trades = 0
         def execute(self, trader_buy, trader_sell, price, size):
@@ -240,22 +241,22 @@ def _perftest():
     ITERS = 100000
     max_price = 10
     ob = OrderBook("FOOBAR", max_price=max_price)
-    start = time.clock()
+    start = time.time()
     for i in range(ITERS):
         os.system("clear")
         buysell, qty, price, trader = random.choice([0,1]), random.randrange(1,150), \
                 random.randrange(1,max_price), 'trader %s' % random.randrange(1000)
-        print "NEW ORDER: %s %s %s @ %s" % (trader, "BUY" if buysell==0 else "SELL", qty, price)
+        print("NEW ORDER: %s %s %s @ %s" % (trader, "BUY" if buysell==0 else "SELL", qty, price))
         ob.limit_order(buysell, qty, price, trader)
-        print ob.render()
-        raw_input()
-    elapsed = (time.clock() - start) * 1000.
-    print "# orders: %d" % ITERS
-    print "elapsed: %.2f msecs" % elapsed
-    print "# trades: %d" % MyOrderBook.trades
-    print "%.2f orders/sec" % (ITERS/elapsed*1000.)
+        print(ob.render())
+        input()
+    elapsed = (time.time() - start) * 1000.
+    print("# orders: %d" % ITERS)
+    print("elapsed: %.2f msecs" % elapsed)
+    print("# trades: %d" % MyOrderBook.trades)
+    print("%.2f orders/sec" % (ITERS/elapsed*1000.))
     #print ob.render()
-    raw_input()
+    input()
         
 if __name__ == "__main__":
     _unittest2()
@@ -269,4 +270,4 @@ if __name__ == "__main__":
     ob.limit_order(0, 100, 593, "Kevin")
     ob.limit_order(1, 100, 200, "Tom")
     elapsed = time.time() - start
-    print "elapsed: %s" % (elapsed * 1e6)
+    print("elapsed: %s" % (elapsed * 1e6))
