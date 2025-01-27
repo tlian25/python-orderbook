@@ -4,12 +4,14 @@ import random
 import sys
 sys.path.append(os.path.abspath(".."))
 from orderbook import OrderBook
+from orderbook_ll import OrderBookLL
 
 def orderbook_demo():
     import time, random
     ITERS = 100000
     max_price = 10
-    ob = OrderBook("FOOBAR", max_price=max_price)
+    ob = OrderBookLL("FOOBAR", max_price=max_price)
+    # ob = OrderBook("FOOBAR", max_price=max_price)
     start = time.time()
     for i in range(ITERS):
         os.system("clear")

@@ -4,6 +4,7 @@ import random
 import sys
 sys.path.append(os.path.abspath(".."))
 from orderbook import OrderBook
+from orderbook_ll import OrderBookLL
 
 """
 Sample results on Lenovo X200 laptop, Linux Mint 14
@@ -31,7 +32,8 @@ maxprice     trading range       orders/sec
 """
 
 def perftest():
-    class MyOrderBook(OrderBook):
+    class MyOrderBook(OrderBookLL):
+    # class MyOrderBook(OrderBook):
         trades = 0
         def execute(self, trader_buy, trader_sell, price, size):
             MyOrderBook.trades += 1
